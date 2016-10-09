@@ -27,19 +27,19 @@ namespace TaskManager {
             this->_function();
         }
 
-        Task &operator=(const Task &other) {
+        Task& operator=(const Task &other) {
             this->_function = other._function;
             return *this;
         }
 
-        Task &operator=(Task &&other) {
+        Task& operator=(Task &&other) {
             if (this == &other) return *this;
             this->_function = other._function;
             other._function = nullptr;
             return *this;
         }
 
-        Task &operator=(const std::function<void()> function) {
+        Task& operator=(const std::function<void()> function) {
             this->_function = function;
             return *this;
         }

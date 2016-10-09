@@ -45,7 +45,7 @@ namespace TaskManager {
                 std::lock_guard<std::mutex> taskGuard(this->_taskMutex, std::adopt_lock);
                 this->_tasks.emplace([this, packagedTask]() { (*packagedTask)(); });
             }
-            ExecuteTask();
+            ExecuteTasks();
             return futureResult;
         }
         void Execute(Task &task);
@@ -61,7 +61,7 @@ namespace TaskManager {
         std::queue<Task> _tasks;
 
         void Freed();
-        void ExecuteTask();
+        void ExecuteTasks();
         std::shared_ptr<Worker> GetFreeWorker();
     };
 

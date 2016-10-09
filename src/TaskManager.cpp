@@ -22,7 +22,7 @@ namespace TaskManager {
         _workers.clear();
     }
 
-    void TaskManager::ExecuteTask()
+    void TaskManager::ExecuteTasks()
     {
         using namespace std;
         {
@@ -61,7 +61,7 @@ namespace TaskManager {
             lock_guard<mutex> taskGuard(this->_taskMutex);
             this->_tasks.push(task);
         }
-        ExecuteTask();
+        ExecuteTasks();
     }
 
     std::shared_ptr<Worker> TaskManager::GetFreeWorker()
@@ -76,7 +76,7 @@ namespace TaskManager {
 
     void TaskManager::Freed()
     {
-        ExecuteTask();
+        ExecuteTasks();
     }
 
     void TaskManager::Init()
