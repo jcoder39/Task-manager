@@ -1,10 +1,8 @@
-#include <iostream>
-#include <future>
-#include "../include/TaskManager.hpp"
+#include "../include/header.hpp"
 
 int main() {
-    using TaskManager::Task;
-    using TaskManager = TaskManager::TaskManager;
+    using name::bvv::TaskManager::Task;
+    using TaskManager = name::bvv::TaskManager::TaskManager;
 
     TaskManager taskManager(2);
     taskManager.Init();

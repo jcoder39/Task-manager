@@ -5,61 +5,67 @@
 #ifndef TASKMANAGER_TASK_HPP
 #define TASKMANAGER_TASK_HPP
 
-#include <iostream>
-#include <c++/functional>
+#include "header.hpp"
 
-namespace TaskManager {
+NAMESPACE_BEGIN
 
-    class Task {
-    public:
-        Task() : _function(nullptr) {}
+class Task {
+public:
+    Task() : _function(nullptr) {}
 
-        Task(const std::function<void()> &function) : _function(function) {}
+    Task(const std::function<void()> &function) : _function(function) {}
 
-        Task(const Task &other) : _function(other._function) {}
+    Task(const Task &other) : _function(other._function) {}
 
-        Task(Task &&other) {
-            this->_function = other._function;
-            other._function = nullptr;
-        }
+    Task(Task &&other)
+    {
+        this->_function = other._function;
+        other._function = nullptr;
+    }
 
-        void operator()() {
-            this->_function();
-        }
+    void operator()()
+    {
+        this->_function();
+    }
 
-        Task& operator=(const Task &other) {
-            this->_function = other._function;
-            return *this;
-        }
+    Task &operator=(const Task &other)
+    {
+        this->_function = other._function;
+        return *this;
+    }
 
-        Task& operator=(Task &&other) {
-            if (this == &other) return *this;
-            this->_function = other._function;
-            other._function = nullptr;
-            return *this;
-        }
+    Task &operator=(Task &&other)
+    {
+        if(this == &other) return *this;
+        this->_function = other._function;
+        other._function = nullptr;
+        return *this;
+    }
 
-        Task& operator=(const std::function<void()> function) {
-            this->_function = function;
-            return *this;
-        }
+    Task &operator=(const std::function<void()> function)
+    {
+        this->_function = function;
+        return *this;
+    }
 
-        template<typename T>
-        bool operator==(const T &var) {
-            return (_function == var);
-        }
+    template<typename T>
+    bool operator==(const T &var)
+    {
+        return (_function == var);
+    }
 
-        template<typename T>
-        bool operator!=(const T &var) {
-            return (_function != var);
-        }
+    template<typename T>
+    bool operator!=(const T &var)
+    {
+        return (_function != var);
+    }
 
-        virtual ~Task() = default;
+    virtual ~Task() = default;
 
-    private:
-        std::function<void()> _function;
-    };
+private:
+    std::function<void()> _function;
+};
 
-}
+NAMESPACE_END
 
 #endif //TASKMANAGER_TASK_HPP
