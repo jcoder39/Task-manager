@@ -14,7 +14,7 @@
 #include <queue>
 #include <future>
 #include <chrono>
-#include <c++/functional>
+#include <functional>
 
 #define NAMESPACE_BEGIN namespace name { namespace bvv { namespace TaskManager {
 #define NAMESPACE_END   } } }

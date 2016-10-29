@@ -25,21 +25,15 @@ TaskManager::~TaskManager()
 void TaskManager::ExecuteTasks()
 {
     using namespace std;
-    {
-        lock_guard<mutex> initGuard(this->_initMutex);
-        if (!this->_init.load()) {
-            throw runtime_error("Task manager should be initialized");
-        }
-    }
     lock(this->_cvMutex, this->_taskMutex, this->_workerMutex);
     lock_guard<mutex> cvGuard(this->_cvMutex, adopt_lock);
     lock_guard<mutex> taskGuard(this->_taskMutex, adopt_lock);
     lock_guard<mutex> workerGuard(this->_workerMutex, adopt_lock);
-    auto worker = GetFreeWorker();
-    if (worker == nullptr) {
+    if (_tasks.empty()) {
         return;
     }
-    if (_tasks.empty()) {
+    auto worker = GetFreeWorker();
+    if (worker == nullptr) {
         return;
     }
     Task task = move(_tasks.front());

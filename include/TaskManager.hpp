@@ -25,6 +25,12 @@ public:
     template<class F, class... Args>
     auto Execute(F &&function, Args &&... args) -> std::future<typename std::result_of<F(Args...)>::type>
     {
+        {
+            std::lock_guard<std::mutex> initGuard(this->_initMutex);
+            if (!this->_init.load()) {
+                throw std::runtime_error("Task manager should be initialized");
+            }
+        }
         using return_type = typename std::result_of<F(Args...)>::type;
         std::future<return_type> futureResult;
         auto packagedTask = std::make_shared<std::packaged_task<return_type()>>(
@@ -41,7 +47,6 @@ public:
         return futureResult;
     }
     void Execute(Task &task);
-
 private:
     std::vector<std::shared_ptr<Worker>> _workers;
     std::condition_variable _cv;
